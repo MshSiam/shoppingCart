@@ -1,9 +1,7 @@
 // // // // update Product number // // // //
-
-function updateProductNumber(product, isIncreasing){
-    const productInput = document.getElementById( product+'-number')
-    var productNumber = productInput.value
-
+function updateProductNumber(product, price,  isIncreasing){
+    const productInput = document.getElementById(product + '-number')
+    let productNumber = productInput.value
     if(isIncreasing == true){
         productNumber = parseInt(productNumber) + 1
     }else if(productNumber > 0){
@@ -11,34 +9,60 @@ function updateProductNumber(product, isIncreasing){
     }
     productInput.value = productNumber
 
-    // update case total
+    // update total
     const productTotal = document.getElementById( product + '-total')
 
-    if(product == 'case'){
-        productTotal.innerText = productNumber * 59
-    }else if(product == 'phone'){
-        productTotal.innerText = productNumber * 1219
-    }
+    productTotal.innerText = productNumber * price
+    //  // // clacilate total /// // 
+
+    calculateTotal()
+}
+// // // // // Calculate Total price // // // // 
+
+// //get product
+function getInputValue(product){
+    const productInput = document.getElementById(product + '-number')
+    const productNumber = parseInt(productInput.value)
+    return productNumber
+}
+
+
+
+// total price
+function calculateTotal(){
+
+    const phoneTotal = getInputValue('phone') * 1219
+    const caseTotal = getInputValue('case') * 59
+    const subTotal = phoneTotal + caseTotal
+    const tax = subTotal / 10
+    const totalPrice = subTotal + tax
+    
+    // Update on the hml
+    document.getElementById('sub-total').innerText = subTotal
+    document.getElementById('tax-amount').innerText = tax
+    document.getElementById('total-price').innerText = totalPrice
 }
 
 // // // case plus // // //
 document.getElementById('case-plus').addEventListener('click', function(){
-    updateProductNumber('case',true)
+    updateProductNumber('case',59,true)
 })
 
 // // // case minus // // //
 document.getElementById('case-minus').addEventListener('click', function(){
-    updateProductNumber('case')
+    updateProductNumber('case',59, false)
 })
 
 // // // // // phone // // // // //
 
 // // // phone plus // // //
 document.getElementById('phone-plus').addEventListener('click', function(){
-    updateProductNumber('phone' , true)
+    updateProductNumber('phone', 1219 , true)
 })
 
 // // // phone minus // // //
 document.getElementById('phone-minus').addEventListener('click', function(){
-    updateProductNumber('phone')
+    updateProductNumber('phone',1219,false)
 })
+
+//  // // // //  Sub Total // // // // //
